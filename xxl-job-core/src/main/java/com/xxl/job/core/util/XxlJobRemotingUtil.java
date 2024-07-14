@@ -1,10 +1,5 @@
 package com.xxl.job.core.util;
 
-import com.xxl.job.core.biz.model.ReturnT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.net.ssl.*;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -12,7 +7,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Map;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xxl.job.core.biz.model.ReturnT;
 
 /**
  * @author xuxueli 2018-11-25 00:55:31
@@ -65,7 +72,8 @@ public class XxlJobRemotingUtil {
      * @param returnTargClassOfT
      * @return
      */
-    public static ReturnT postBody(String url, String accessToken, int timeout, Object requestObj, Class returnTargClassOfT) {
+    @SuppressWarnings("rawtypes")
+	public static ReturnT postBody(String url, String accessToken, int timeout, Object requestObj, Class<?> returnTargClassOfT) {
         HttpURLConnection connection = null;
         BufferedReader bufferedReader = null;
         try {

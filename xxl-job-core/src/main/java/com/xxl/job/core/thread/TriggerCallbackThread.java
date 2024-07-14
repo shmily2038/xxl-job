@@ -26,13 +26,16 @@ import java.util.concurrent.TimeUnit;
 public class TriggerCallbackThread {
     private static Logger logger = LoggerFactory.getLogger(TriggerCallbackThread.class);
 
+    /**
+     * 单例 恶汉者模式
+     */
     private static TriggerCallbackThread instance = new TriggerCallbackThread();
     public static TriggerCallbackThread getInstance(){
         return instance;
     }
 
     /**
-     * job results callback queue
+     * job results callback queue 任务结果回调队列
      */
     private LinkedBlockingQueue<HandleCallbackParam> callBackQueue = new LinkedBlockingQueue<HandleCallbackParam>();
     public static void pushCallBack(HandleCallbackParam callback){
@@ -54,7 +57,7 @@ public class TriggerCallbackThread {
             return;
         }
 
-        // callback
+        // callback 触发器回调线程
         triggerCallbackThread = new Thread(new Runnable() {
 
             @Override
@@ -68,7 +71,7 @@ public class TriggerCallbackThread {
 
                             // callback list param
                             List<HandleCallbackParam> callbackParamList = new ArrayList<HandleCallbackParam>();
-                            int drainToNum = getInstance().callBackQueue.drainTo(callbackParamList);
+							/* int drainToNum = */getInstance().callBackQueue.drainTo(callbackParamList);
                             callbackParamList.add(callback);
 
                             // callback, will retry if error
@@ -86,7 +89,7 @@ public class TriggerCallbackThread {
                 // last callback
                 try {
                     List<HandleCallbackParam> callbackParamList = new ArrayList<HandleCallbackParam>();
-                    int drainToNum = getInstance().callBackQueue.drainTo(callbackParamList);
+					/* int drainToNum = */getInstance().callBackQueue.drainTo(callbackParamList);
                     if (callbackParamList!=null && callbackParamList.size()>0) {
                         doCallback(callbackParamList);
                     }
@@ -104,7 +107,7 @@ public class TriggerCallbackThread {
         triggerCallbackThread.start();
 
 
-        // retry
+        // retry  触发器回调重试线程
         triggerRetryCallbackThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -157,7 +160,7 @@ public class TriggerCallbackThread {
     }
 
     /**
-     * do callback, will retry if error
+     * do callback, will retry if error 执行回调，如果出错将重试
      * @param callbackParamList
      */
     private void doCallback(List<HandleCallbackParam> callbackParamList){
@@ -225,8 +228,11 @@ public class TriggerCallbackThread {
         FileUtil.writeFileContent(callbackLogFile, callbackParamList_bytes);
     }
 
-    private void retryFailCallbackFile(){
-
+    /**
+     * 重试失败回调文件
+     */
+    @SuppressWarnings("unchecked")
+	private void retryFailCallbackFile(){
         // valid
         File callbackLogPath = new File(failCallbackFilePath);
         if (!callbackLogPath.exists()) {
@@ -239,11 +245,11 @@ public class TriggerCallbackThread {
             return;
         }
 
-        // load and clear file, retry
+        // load and clear file, retry 加载并清除文件，重试
         for (File callbaclLogFile: callbackLogPath.listFiles()) {
             byte[] callbackParamList_bytes = FileUtil.readFileContent(callbaclLogFile);
 
-            // avoid empty file
+            // avoid empty file 避免空文件
             if(callbackParamList_bytes == null || callbackParamList_bytes.length < 1){
                 callbaclLogFile.delete();
                 continue;

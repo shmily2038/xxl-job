@@ -3,7 +3,8 @@ package com.xxl.job.core.biz.model;
 import java.io.Serializable;
 
 /**
- * common return
+ * common return  通用返回消息体
+ * 
  * @author xuxueli 2015-12-4 16:32:31
  * @param <T>
  */
@@ -15,36 +16,52 @@ public class ReturnT<T> implements Serializable {
 
 	public static final ReturnT<String> SUCCESS = new ReturnT<String>(null);
 	public static final ReturnT<String> FAIL = new ReturnT<String>(FAIL_CODE, null);
-
+	/**
+	 * 编码
+	 */
 	private int code;
+	/**
+	 * 消息
+	 */
 	private String msg;
+	/**
+	 * 应答内容
+	 */
 	private T content;
 
-	public ReturnT(){}
+	public ReturnT() {
+	}
+
 	public ReturnT(int code, String msg) {
 		this.code = code;
 		this.msg = msg;
 	}
+
 	public ReturnT(T content) {
 		this.code = SUCCESS_CODE;
 		this.content = content;
 	}
-	
+
 	public int getCode() {
 		return code;
 	}
+
 	public void setCode(int code) {
 		this.code = code;
 	}
+
 	public String getMsg() {
 		return msg;
 	}
+
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
 	public T getContent() {
 		return content;
 	}
+
 	public void setContent(T content) {
 		this.content = content;
 	}

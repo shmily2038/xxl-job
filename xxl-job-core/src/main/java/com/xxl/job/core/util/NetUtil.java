@@ -15,7 +15,7 @@ public class NetUtil {
     private static Logger logger = LoggerFactory.getLogger(NetUtil.class);
 
     /**
-     * find avaliable port
+     * find avaliable port  发现可用网络端口，内部自动检查
      *
      * @param defaultPort
      * @return
@@ -41,7 +41,7 @@ public class NetUtil {
     }
 
     /**
-     * check port used
+     * check port used 检查端口是否被使用
      *
      * @param port
      * @return

@@ -3,6 +3,7 @@ package com.xxl.job.core.biz.model;
 import java.io.Serializable;
 
 /**
+ * 杀进程时，任务Id
  * @author xuxueli 2020-04-11 22:27
  */
 public class KillParam implements Serializable {

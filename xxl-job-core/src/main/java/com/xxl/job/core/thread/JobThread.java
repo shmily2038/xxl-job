@@ -26,16 +26,38 @@ import java.util.concurrent.*;
  */
 public class JobThread extends Thread{
 	private static Logger logger = LoggerFactory.getLogger(JobThread.class);
-
+	/**
+	 * 任务id
+	 */
 	private int jobId;
+	/**
+	 * 任务处理器
+	 */
 	private IJobHandler handler;
+	/**
+	 * 触发队列
+	 */
 	private LinkedBlockingQueue<TriggerParam> triggerQueue;
-	private Set<Long> triggerLogIdSet;		// avoid repeat trigger for the same TRIGGER_LOG_ID
-
+	/**
+	 * 触发日志Id集合
+	 */
+	private Set<Long> triggerLogIdSet;		// avoid repeat trigger for the same TRIGGER_LOG_ID 避免对同一trigger_LOG_ID重复触发
+	/**
+	 * 停止
+	 */
 	private volatile boolean toStop = false;
+	/**
+	 * 停止原因
+	 */
 	private String stopReason;
-
+	
+	/**
+	 * 是否运行中
+	 */
     private boolean running = false;    // if running job
+    /**
+     * 空闲时间
+     */
 	private int idleTimes = 0;			// idel times
 
 
@@ -150,7 +172,7 @@ public class JobThread extends Thread{
 							futureThread = new Thread(futureTask);
 							futureThread.start();
 
-							Boolean tempResult = futureTask.get(triggerParam.getExecutorTimeout(), TimeUnit.SECONDS);
+							/* Boolean tempResult = */futureTask.get(triggerParam.getExecutorTimeout(), TimeUnit.SECONDS);
 						} catch (TimeoutException e) {
 
 							XxlJobHelper.log("<br>----------- xxl-job job execute timeout");

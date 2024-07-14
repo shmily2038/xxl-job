@@ -30,7 +30,7 @@ public class ExecutorBizImpl implements ExecutorBiz {
     @Override
     public ReturnT<String> idleBeat(IdleBeatParam idleBeatParam) {
 
-        // isRunningOrHasQueue
+        // isRunningOrHasQueue 正在运行或已排队
         boolean isRunningOrHasQueue = false;
         JobThread jobThread = XxlJobExecutor.loadJobThread(idleBeatParam.getJobId());
         if (jobThread != null && jobThread.isRunningOrHasQueue()) {
