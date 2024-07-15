@@ -8,13 +8,13 @@ import com.xxl.job.core.biz.model.*;
 public interface ExecutorBiz {
 
     /**
-     * beat
+     * beat 心跳
      * @return
      */
     public ReturnT<String> beat();
 
     /**
-     * idle beat
+     * idle beat 空闲心跳
      *
      * @param idleBeatParam
      * @return
@@ -22,21 +22,21 @@ public interface ExecutorBiz {
     public ReturnT<String> idleBeat(IdleBeatParam idleBeatParam);
 
     /**
-     * run
+     * run  运行
      * @param triggerParam
      * @return
      */
     public ReturnT<String> run(TriggerParam triggerParam);
 
     /**
-     * kill
+     * kill 杀进程
      * @param killParam
      * @return
      */
     public ReturnT<String> kill(KillParam killParam);
 
     /**
-     * log
+     * log 获取日志
      * @param logParam
      * @return
      */
